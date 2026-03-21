@@ -19,31 +19,38 @@ public class PatientController {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    // 100 patients
+    // GET all patients (paginated)
     @GetMapping
-    public List<Map<String, Object>> getAllPatients() {
-        return jdbcTemplate.queryForList("SELECT * FROM patients LIMIT 100");
+    public List<Map<String, Object>> getAllPatients(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        return jdbcTemplate.queryForList("SELECT * FROM patients LIMIT ? OFFSET ?", size, page * size);
     }
 
-    // one specific patient by id
+    // GET one specific patient by id
     @GetMapping("/{id}")
     public Map<String, Object> getPatientById(@PathVariable int id) {
         return jdbcTemplate.queryForMap("SELECT * FROM patients WHERE id = ?", id);
     }
 
-    // readmitted patients
+    // GET all readmitted patients (paginated)
     @GetMapping("/readmitted")
-    public List<Map<String, Object>> getReadmittedPatients() {
-        return jdbcTemplate.queryForList("SELECT * FROM patients WHERE readmitted = 'yes' LIMIT 100");
+    public List<Map<String, Object>> getReadmittedPatients(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        return jdbcTemplate.queryForList("SELECT * FROM patients WHERE readmitted = 'yes' LIMIT ? OFFSET ?", size, page * size);
     }
 
-    // filter by diagnosis
+    // GET all patients by diagnosis (paginated)
     @GetMapping("/diagnosis/{diag}")
-    public List<Map<String, Object>> getPatientsByDiagnosis(@PathVariable String diag){
-        return jdbcTemplate.queryForList("SELECT * FROM patients WHERE diag_1 = ? OR diag_2 = ? OR diag_3 = ? LIMIT 100", diag, diag, diag);
+    public List<Map<String, Object>> getPatientsByDiagnosis(
+            @PathVariable String diag,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        return jdbcTemplate.queryForList("SELECT * FROM patients WHERE diag_1 = ? OR diag_2 = ? OR diag_3 = ? LIMIT ? OFFSET ?", diag, diag, diag, size, page * size);
     }
 
-    // aggregated statistics
+    // Get aggregated statistics
     @GetMapping("/stats")
     public Map<String, Object> getPatientStats() {
         Map<String, Object> stats = new LinkedHashMap<>();
@@ -59,7 +66,7 @@ public class PatientController {
         return stats;
     }
 
-    // create a new patient
+    // Create a new patient
     @PostMapping
     public String createPatient(@RequestBody Map<String, Object> body) {
         try {
@@ -97,7 +104,7 @@ public class PatientController {
 
     }
 
-    // replace a patient by id
+    // Replace a patient by id
     @PutMapping("/{id}")
     public String updatePatient(@PathVariable int id, @RequestBody Map<String, Object> body) {
         try {
@@ -136,7 +143,7 @@ public class PatientController {
         }
     }
 
-    // partially update a patient by id
+    // Partially update a patient by id
     @PatchMapping("/{id}")
     public String patchPatient(@PathVariable int id, @RequestBody Map<String, Object> body) {
         try {
@@ -161,7 +168,7 @@ public class PatientController {
         }
     }
 
-    // delete a patient
+    // Delete a patient
     @DeleteMapping("/{id}")
     public String deletePatient(@PathVariable int id) {
         try {
