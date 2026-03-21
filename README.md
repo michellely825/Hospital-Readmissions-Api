@@ -96,13 +96,19 @@ for diabetic patients across 130 US hospitals (1999-2008).
 ## Endpoints
 
 ### GET ALL Patients
-```GET /patients```
+`GET /patients`
 
-Returns 100 patients from the database.
+Returns all patients from the database. Supports pagination.
+
+**Query Parameters:**
+| Parameter | Default | Description |
+|---|---|---|
+| page | 0 | Page number |
+| size | 20 | Number of results per page |
 
 **Example:**
 ```bash
-curl http://localhost:8080/patients
+curl "http://localhost:8080/patients?page=0&size=20"
 ```
 
 **Response:**
@@ -117,7 +123,7 @@ curl http://localhost:8080/patients
 ]
 ```
 ---
-```GET /patients/{id}```
+`GET /patients/{id}`
 
 Returns one specific patient by id.
 
@@ -137,33 +143,46 @@ curl http://localhost:8080/patients/1
 ```
 
 ---
-```GET /patients/readmitted```
+`GET /patients/readmitted`
 
-Returns all readmitted patients.
+Returns all readmitted patients. Supports pagination.
+
+**Query Parameters:**
+| Parameter | Default | Description |
+|---|---|---|
+| page | 0 | Page number |
+| size | 20 | Number of results per page |
 
 **Example:**
 ```bash
-curl http://localhost:8080/patients/readmitted
+curl "http://localhost:8080/patients/readmitted?page=0&size=20"
 ```
 
 **Response:**
 ```json
 [
   {
-    "id": 1,
-    "age": "[70-80)",
-    "time_in_hospital": 8,
+    "id": 3,
+    "age": "[50-60)",
+    "time_in_hospital": 5,
     "readmitted": "yes"
   }
 ]
 ```
 ---
-```GET /patients/diagnosis/{diag}```
+`GET /patients/diagnosis/{diag}`
 
-Returns all patients where any diagnosis (primary, secondary, or tertiary) matches the specified diagnosis.
+Returns all patients where any diagnosis (primary, secondary, or tertiary) matches the specified diagnosis. Supports pagination.
+
+**Query Parameters:**
+| Parameter | Default | Description |
+|---|---|---|
+| page | 0 | Page number |
+| size | 20 | Number of results per page |
+
 **Example:**
 ```bash
-curl http://localhost:8080/patients/diagnosis/Diabetes
+curl "http://localhost:8080/patients/diagnosis/Diabetes?page=0&size=20"
 ```
 
 **Response:**
