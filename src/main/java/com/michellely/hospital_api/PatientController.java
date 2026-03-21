@@ -5,10 +5,7 @@ package com.michellely.hospital_api;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.LinkedHashMap;
+import java.util.*;
 
 @RestController
 
@@ -137,7 +134,27 @@ public class PatientController {
         }
     }
 
+    @PatchMapping("/{id}")
+    public String patchPatient(@PathVariable int id, @RequestBody Map<String, Object> body) {
+        try {
+            StringBuilder sb = new StringBuilder("SET ");
+            List<Object> values = new ArrayList<>();
+            for (String key : body.keySet()) {
+                sb.append(key + " = ?,");
+                values.add(body.get(key));
+            }
 
-
-
+            String setClause = sb.toString();
+            setClause = setClause.substring(0, setClause.length() - 1);
+            values.add(id);
+            int rowsAffected = jdbcTemplate.update("UPDATE patients " + setClause + " WHERE id = ?", values.toArray());
+            if (rowsAffected == 1) {
+                return ("Patient " + id + " successfully updated!");
+            } else {
+                return ("Something went wrong!");
+            }
+        } catch (Exception e) {
+            return "Error :" + e.getMessage();
+        }
+    }
 }
