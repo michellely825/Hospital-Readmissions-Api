@@ -61,4 +61,43 @@ public class PatientController {
         stats.put("most_common_diagnosis", mostCommonDiag);
         return stats;
     }
+
+    @PostMapping
+    public String createPatient(@RequestBody Map<String, Object> body) {
+        try {
+            int rowsAffected = jdbcTemplate.update(
+                    "INSERT INTO patients (age, time_in_hospital, n_procedures, n_lab_procedures, " +
+                            "n_medications, n_outpatient, n_inpatient, n_emergency, medical_specialty, " +
+                            "diag_1, diag_2, diag_3, glucose_test, a1c_test, change, diabetes_med, readmitted) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    body.get("age"),
+                    body.get("time_in_hospital"),
+                    body.get("n_procedures"),
+                    body.get("n_lab_procedures"),
+                    body.get("n_medications"),
+                    body.get("n_outpatient"),
+                    body.get("n_inpatient"),
+                    body.get("n_emergency"),
+                    body.get("medical_specialty"),
+                    body.get("diag_1"),
+                    body.get("diag_2"),
+                    body.get("diag_3"),
+                    body.get("glucose_test"),
+                    body.get("a1c_test"),
+                    body.get("change"),
+                    body.get("diabetes_med"),
+                    body.get("readmitted")
+            );
+            if (rowsAffected == 1) {
+                return "Patient created successfully!";
+            } else {
+                return ("Something went wrong!");
+            }
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
+
+    }
+
+
 }
