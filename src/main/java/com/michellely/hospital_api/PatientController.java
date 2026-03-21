@@ -59,6 +59,7 @@ public class PatientController {
         return stats;
     }
 
+    // create a new patient
     @PostMapping
     public String createPatient(@RequestBody Map<String, Object> body) {
         try {
@@ -96,6 +97,7 @@ public class PatientController {
 
     }
 
+    // replace a patient by id
     @PutMapping("/{id}")
     public String updatePatient(@PathVariable int id, @RequestBody Map<String, Object> body) {
         try {
@@ -134,6 +136,7 @@ public class PatientController {
         }
     }
 
+    // partially update a patient by id
     @PatchMapping("/{id}")
     public String patchPatient(@PathVariable int id, @RequestBody Map<String, Object> body) {
         try {
@@ -157,6 +160,8 @@ public class PatientController {
             return "Error: " + e.getMessage();
         }
     }
+
+    // delete a patient
     @DeleteMapping("/{id}")
     public String deletePatient(@PathVariable int id) {
         try {
