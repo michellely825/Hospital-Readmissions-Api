@@ -154,7 +154,20 @@ public class PatientController {
                 return ("Something went wrong!");
             }
         } catch (Exception e) {
-            return "Error :" + e.getMessage();
+            return "Error: " + e.getMessage();
+        }
+    }
+    @DeleteMapping("/{id}")
+    public String deletePatient(@PathVariable int id) {
+        try {
+            int affectedRows = jdbcTemplate.update("DELETE FROM patients WHERE id = ?", id);
+            if (affectedRows == 1) {
+                return "Patient " + id + " successfully deleted!";
+            } else {
+                return "Something went wrong!";
+            }
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
         }
     }
 }
