@@ -1,0 +1,294 @@
+{
+  "info": {
+    "_postman_id": "0361c26c-e61b-4d87-8a3c-63ed2224ed3d",
+    "name": "Hospital Readmissions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53393557",
+    "_collection_link": "https://go.postman.co/collection/53393557-0361c26c-e61b-4d87-8a3c-63ed2224ed3d?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get Readmitted Patients",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/patients/readmitted",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "patients",
+            "readmitted"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Patients By 20",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/patients",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "patients"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Patient by ID",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/patients/25",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "patients",
+            "25"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Patients by Diagnosis",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/patients/diagnosis/Diabetes",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "patients",
+            "diagnosis",
+            "Diabetes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Stats",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/patients/stats",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "patients",
+            "stats"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Stats by Diagnosis",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/patients/stats/by-diagnosis",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "patients",
+            "stats",
+            "by-diagnosis"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Stats by Age",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/patients/stats/by-age",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "patients",
+            "stats",
+            "by-age"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Patient",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"age\": \"[20-30)\",\n  \"time_in_hospital\": 3,\n  \"n_procedures\": 10,\n  \"n_lab_procedures\": 2,\n  \"n_medications\": 5,\n  \"n_outpatient\": 0,\n  \"n_inpatient\": 0,\n  \"n_emergency\": 0,\n  \"medical_specialty\": \"Other\",\n  \"diag_1\": \"Circulatory\",\n  \"diag_2\": \"Other\",\n  \"diag_3\": \"Other\",\n  \"glucose_test\": \"no\",\n  \"a1c_test\": \"no\",\n  \"change\": \"no\",\n  \"diabetes_med\": \"yes\",\n  \"readmitted\": \"no\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/patients",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "patients"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Replace Patient",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"age\": \"[30-40)\",\n  \"time_in_hospital\": 5,\n  \"n_procedures\": 10,\n  \"n_lab_procedures\": 2,\n  \"n_medications\": 5,\n  \"n_outpatient\": 0,\n  \"n_inpatient\": 0,\n  \"n_emergency\": 0,\n  \"medical_specialty\": \"Other\",\n  \"diag_1\": \"Circulatory\",\n  \"diag_2\": \"Other\",\n  \"diag_3\": \"Other\",\n  \"glucose_test\": \"no\",\n  \"a1c_test\": \"no\",\n  \"change\": \"no\",\n  \"diabetes_med\": \"yes\",\n  \"readmitted\": \"no\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/patients/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "patients",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Patient",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"age\": \"[80-90)\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/patients/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "patients",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "New Request",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Patient by ID",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/patients/25002",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "patients",
+            "25002"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
