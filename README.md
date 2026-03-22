@@ -1,13 +1,14 @@
 # Hospital Readmissions API
 
 ## Overview
-A Spring Boot REST API serving ten years of hospital readmission data
+A Spring Boot REST API with ten years of hospital readmission data
 for diabetic patients across 130 US hospitals (1999-2008).
 
 ## Features
 * 25,000 rows of real healthcare data
 * Full CRUD endpoints (Create, Read, Update, Delete)
 * Raw SQL with JdbcTemplate
+* Pagination
 * Filtered queries by diagnosis, readmission status and more
 * Aggregated statistics endpoint
 

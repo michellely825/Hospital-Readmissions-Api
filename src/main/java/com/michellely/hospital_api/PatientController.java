@@ -66,6 +66,18 @@ public class PatientController {
         return stats;
     }
 
+    // Readmission rates by primary diagnosis
+    @GetMapping("/stats/by-diagnosis")
+    public List<Map<String, Object>> getStatsByDiag() {
+        return jdbcTemplate.queryForList("SELECT diag_1, COUNT(*) AS total, SUM(CASE WHEN readmitted = 'yes' THEN 1 ELSE 0 END) AS total_readmitted, ROUND(SUM(CASE WHEN readmitted = 'yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS readmission_rates  FROM patients GROUP BY diag_1 ORDER BY diag_1 ASC");
+    }
+
+    // Readmission rates by age
+    @GetMapping("stats/by-age")
+    public List<Map<String, Object>> getStatsByAge() {
+        return jdbcTemplate.queryForList("SELECT age, COUNT(*) AS total, SUM(CASE WHEN readmitted = 'yes' THEN 1 ELSE 0 END) AS total_readmitted, ROUND(SUM(CASE WHEN readmitted = 'yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS readmission_rates  FROM patients GROUP BY age ORDER BY age ASC");
+    }
+
     // Create a new patient
     @PostMapping
     public String createPatient(@RequestBody Map<String, Object> body) {
