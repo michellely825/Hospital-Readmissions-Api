@@ -19,17 +19,6 @@ public class PatientController {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    // root endpoint
-    @GetMapping("/")
-    public Map<String, Object> welcome() {
-        Map<String, Object> info = new LinkedHashMap<>();
-        info.put("name", "Hospital Readmissions API");
-        info.put("version", "1.0");
-        info.put("endpoints", "/patients, /patients/stats, /patients/stats/by-diagnosis, /patients/stats/by-age");
-        info.put("github", "https://github.com/michellely/hospital-api");
-        return info;
-    }
-
     // GET all patients (paginated)
     @GetMapping
     public List<Map<String, Object>> getAllPatients(
