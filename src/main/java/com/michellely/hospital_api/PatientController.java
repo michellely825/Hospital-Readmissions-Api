@@ -24,7 +24,7 @@ public class PatientController {
     public List<Map<String, Object>> getAllPatients(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
-        return jdbcTemplate.queryForList("SELECT * FROM patients LIMIT ? OFFSET ?", size, page * size);
+        return jdbcTemplate.queryForList("SELECT * FROM patients ORDER BY id ASC LIMIT ? OFFSET ?", size, page * size);
     }
 
     // GET one specific patient by id
