@@ -7,6 +7,7 @@ A Spring Boot REST API serving ten years of hospital readmission data for diabet
 
 ## Live Deployment
 This API is deployed on **Railway** with a managed **PostgreSQL** database.
+
 🌐 LIVE Base URL: `https://hospital-readmissions-api-production.up.railway.app`
 
 Try it (open in new tab):
