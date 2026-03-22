@@ -1,11 +1,13 @@
 # Hospital Readmissions API
 
 ## Overview
-A Spring Boot REST API with ten years of hospital readmission data
-for diabetic patients across 130 US hospitals (1999-2008).
+A Spring Boot REST API serving ten years of hospital readmission data for diabetic patients across 
+130 US hospitals (1999-2008). Deployed on Railway with a live public URL.
 
-## Live API
-🌐 Base URL: `https://hospital-readmissions-api-production.up.railway.app`
+
+## Live Deployment
+This API is deployed on **Railway** with a managed **PostgreSQL** database.
+🌐 LIVE Base URL: `https://hospital-readmissions-api-production.up.railway.app`
 
 Try it (open in new tab):
 - [GET /patients](https://hospital-readmissions-api-production.up.railway.app/patients)
@@ -14,16 +16,267 @@ Try it (open in new tab):
 - [GET /patients/stats/by-age](https://hospital-readmissions-api-production.up.railway.app/patients/stats/by-age)
 
 ## Features
-* 25,000 rows of real healthcare data
-* Full CRUD endpoints (Create, Read, Update, Delete)
-* Raw SQL with JdbcTemplate
-* Pagination
-* Filtered queries by diagnosis, readmission status and more
-* Aggregated statistics endpoint
+- 25,000 rows of real healthcare data
+- Full CRUD endpoints (Create, Read, Update, Delete)
+- Raw SQL with JdbcTemplate
+- Pagination support
+- Filtered queries by diagnosis and readmission status
+- Readmission rate analytics by diagnosis and age
+- Aggregated statistics endpoint
+- Deployed on Railway with a managed PostgreSQL database
 
 ## Tech-Stack
-* **Backend:** Java, Spring Boot
-* **Database:** PostgreSQL
+- **Backend:** Java, Spring Boot
+- **Database:** PostgreSQL
+- **Deployment:** Railway
+- **API Testing:** Postman
+
+## Endpoints
+
+### GET ALL Patients
+`GET /patients`
+
+Returns all patients from the database. Supports pagination.
+
+**Query Parameters:**
+| Parameter | Default | Description |
+|---|---|---|
+| page | 0 | Page number |
+| size | 20 | Number of results per page |
+
+**Example:**
+```bash
+curl "http://localhost:8080/patients?page=0&size=20"
+```
+
+**Response:**
+```json
+[
+  {
+    "id": 1,
+    "age": "[70-80)",
+    "time_in_hospital": 8,
+    "readmitted": "no"
+  }
+]
+```
+---
+### GET Patient By ID
+`GET /patients/{id}`
+
+Returns one specific patient by id.
+
+**Example:**
+```bash
+curl http://localhost:8080/patients/1
+```
+
+**Response:**
+```json
+{
+    "id": 1,
+    "age": "[70-80)",
+    "time_in_hospital": 8,
+    "readmitted": "no"
+}
+```
+
+---
+### GET Readmitted Patients
+`GET /patients/readmitted`
+
+Returns all readmitted patients. Supports pagination.
+
+**Query Parameters:**
+| Parameter | Default | Description |
+|---|---|---|
+| page | 0 | Page number |
+| size | 20 | Number of results per page |
+
+**Example:**
+```bash
+curl "http://localhost:8080/patients/readmitted?page=0&size=20"
+```
+
+**Response:**
+```json
+[
+  {
+    "id": 3,
+    "age": "[50-60)",
+    "time_in_hospital": 5,
+    "readmitted": "yes"
+  }
+]
+```
+---
+### GET Patients By Diagnosis
+`GET /patients/diagnosis/{diag}`
+
+Returns all patients where any diagnosis (primary, secondary, or tertiary) matches the specified diagnosis. Supports pagination.
+
+**Query Parameters:**
+| Parameter | Default | Description |
+|---|---|---|
+| page | 0 | Page number |
+| size | 20 | Number of results per page |
+
+**Example:**
+```bash
+curl "http://localhost:8080/patients/diagnosis/Diabetes?page=0&size=20"
+```
+
+**Response:**
+```json
+[
+  {
+    "id": 1,
+    "age": "[70-80)",
+    "time_in_hospital": 8,
+    "diag_1": "Diabetes",
+    "readmitted": "yes"
+  }
+]
+```
+---
+### GET Patients Statistics
+```GET /patients/stats```
+
+Returns aggregated patient statistics.
+**Example:**
+```bash
+curl http://localhost:8080/patients/stats
+```
+
+**Response:**
+```json
+
+{
+    "total_patients": 25000,
+    "average_time_in_hospital": 4.45332,
+    "total_readmitted": 11754,
+    "most_common_diagnosis": "Circulatory"
+}
+
+```
+---
+
+### GET Stats By Diagnosis
+`GET /patients/stats/by-diagnosis`
+
+Returns readmission rates grouped by primary diagnosis.
+
+**Example:**
+```bash
+curl http://localhost:8080/patients/stats/by-diagnosis
+```
+
+**Response:**
+```json
+[
+  {
+    "diag_1": "Diabetes",
+    "total": 1747,
+    "total_readmitted": 937,
+    "readmission_rates": 53.63
+  }
+]
+```
+
+---
+
+### GET Stats By Age
+`GET /patients/stats/by-age`
+
+Returns readmission rates grouped by age bracket.
+
+**Example:**
+```bash
+curl http://localhost:8080/patients/stats/by-age
+```
+
+**Response:**
+```json
+[
+  {
+    "age": "[70-80)",
+    "total": 6836,
+    "total_readmitted": 3336,
+    "readmission_rates": 48.80
+  }
+]
+```
+---
+### Create Patient
+```POST /patients```
+
+Creates a new patient record.
+
+**Example:**
+```bash
+curl -X POST http://localhost:8080/patients \
+  -H "Content-Type: application/json" \
+  -d '{"age": "[20-30)", "time_in_hospital": 3, "n_procedures": 10, "n_lab_procedures": 2, "n_medications": 5, "n_outpatient": 0, "n_inpatient": 0, "n_emergency": 0, "medical_specialty": "Other", "diag_1": "Circulatory", "diag_2": "Other", "diag_3": "Other", "glucose_test": "no", "a1c_test": "no", "change": "no", "diabetes_med": "yes", "readmitted": "no"}'
+```
+
+**Response:**
+```
+Patient created successfully!
+```
+---
+### Replace Patient
+```PUT /patients/{id}```
+
+Replaces all fields of an existing patient by id.
+
+**Example:**
+```bash
+curl -X PUT http://localhost:8080/patients/1 \
+  -H "Content-Type: application/json" \
+  -d '{"age": "[30-40)", "time_in_hospital": 5, "n_procedures": 10, "n_lab_procedures": 2, "n_medications": 5, "n_outpatient": 0, "n_inpatient": 0, "n_emergency": 0, "medical_specialty": "Other", "diag_1": "Circulatory", "diag_2": "Other", "diag_3": "Other", "glucose_test": "no", "a1c_test": "no", "change": "no", "diabetes_med": "yes", "readmitted": "no"}'
+```
+
+**Response:**
+```
+Patient 1 successfully updated!
+```
+---
+### Update Patient
+```PATCH /patients/{id}```
+
+Updates only the specified fields of an existing patient by id.
+
+**Example:**
+```bash 
+curl -X PATCH http://localhost:8080/patients/1 \
+  -H "Content-Type: application/json" \
+  -d '{"age": "[80-90)"}'
+```
+**Response:**
+```
+Patient 1 successfully updated!
+```
+---
+
+### Delete Patient
+```DELETE /patients/{id}```
+
+Deletes a patient by id.
+**Example:**
+```bash 
+curl -X DELETE http://localhost:8080/patients/1
+```
+**Response:**
+```
+Patient 1 successfully deleted!
+```
+
+## Postman Collection
+A Postman collection is included in the repository (`Hospital Readmissions API.postman_collection.json`) with all 11 endpoints pre-configured.
+
+Import it into Postman and set the `base_url` environment variable to either:
+- Local: `http://localhost:8080`
+- Production: `https://hospital-readmissions-api-production.up.railway.app`
 
 ## Dataset
 - **Source:** [Kaggle - Hospital Readmissions](https://www.kaggle.com/datasets/dubradave/hospital-readmissions/data)
@@ -103,192 +356,3 @@ Try it (open in new tab):
    curl http://localhost:8080/patients
 ```
 
-## Endpoints
-
-### GET ALL Patients
-`GET /patients`
-
-Returns all patients from the database. Supports pagination.
-
-**Query Parameters:**
-| Parameter | Default | Description |
-|---|---|---|
-| page | 0 | Page number |
-| size | 20 | Number of results per page |
-
-**Example:**
-```bash
-curl "http://localhost:8080/patients?page=0&size=20"
-```
-
-**Response:**
-```json
-[
-  {
-    "id": 1,
-    "age": "[70-80)",
-    "time_in_hospital": 8,
-    "readmitted": "no"
-  }
-]
-```
----
-`GET /patients/{id}`
-
-Returns one specific patient by id.
-
-**Example:**
-```bash
-curl http://localhost:8080/patients/1
-```
-
-**Response:**
-```json
-{
-    "id": 1,
-    "age": "[70-80)",
-    "time_in_hospital": 8,
-    "readmitted": "no"
-}
-```
-
----
-`GET /patients/readmitted`
-
-Returns all readmitted patients. Supports pagination.
-
-**Query Parameters:**
-| Parameter | Default | Description |
-|---|---|---|
-| page | 0 | Page number |
-| size | 20 | Number of results per page |
-
-**Example:**
-```bash
-curl "http://localhost:8080/patients/readmitted?page=0&size=20"
-```
-
-**Response:**
-```json
-[
-  {
-    "id": 3,
-    "age": "[50-60)",
-    "time_in_hospital": 5,
-    "readmitted": "yes"
-  }
-]
-```
----
-`GET /patients/diagnosis/{diag}`
-
-Returns all patients where any diagnosis (primary, secondary, or tertiary) matches the specified diagnosis. Supports pagination.
-
-**Query Parameters:**
-| Parameter | Default | Description |
-|---|---|---|
-| page | 0 | Page number |
-| size | 20 | Number of results per page |
-
-**Example:**
-```bash
-curl "http://localhost:8080/patients/diagnosis/Diabetes?page=0&size=20"
-```
-
-**Response:**
-```json
-[
-  {
-    "id": 1,
-    "age": "[70-80)",
-    "time_in_hospital": 8,
-    "diag_1": "Diabetes",
-    "readmitted": "yes"
-  }
-]
-```
----
-
-```GET /patients/stats```
-
-Returns aggregated patient statistics.
-**Example:**
-```bash
-curl http://localhost:8080/patients/stats
-```
-
-**Response:**
-```json
-
-{
-    "total_patients": 2500,
-    "average_time_in_hospital": 4.45332,
-    "total_readmitted": 11754,
-    "most_common_diagnosis": "Circulatory"
-}
-
-```
----
-### Create Patient
-```POST /patients```
-
-Creates a new patient record.
-
-**Example:**
-```bash
-curl -X POST http://localhost:8080/patients \
-  -H "Content-Type: application/json" \
-  -d '{"age": "[20-30)", "time_in_hospital": 3, "n_procedures": 10, "n_lab_procedures": 2, "n_medications": 5, "n_outpatient": 0, "n_inpatient": 0, "n_emergency": 0, "medical_specialty": "Other", "diag_1": "Circulatory", "diag_2": "Other", "diag_3": "Other", "glucose_test": "no", "a1c_test": "no", "change": "no", "diabetes_med": "yes", "readmitted": "no"}'
-```
-
-**Response:**
-```
-Patient created successfully!
-```
----
-### Replace Patient
-```PUT /patients/{id}```
-
-Replaces all fields of an existing patient by id.
-
-**Example:**
-```bash
-curl -X PUT http://localhost:8080/patients/1 \
-  -H "Content-Type: application/json" \
-  -d '{"age": "[30-40)", "time_in_hospital": 5, "n_procedures": 10, "n_lab_procedures": 2, "n_medications": 5, "n_outpatient": 0, "n_inpatient": 0, "n_emergency": 0, "medical_specialty": "Other", "diag_1": "Circulatory", "diag_2": "Other", "diag_3": "Other", "glucose_test": "no", "a1c_test": "no", "change": "no", "diabetes_med": "yes", "readmitted": "no"}'
-```
-
-**Response:**
-```
-Patient 1 successfully updated!
-```
----
-
-```PATCH /patients/{id}```
-
-Updates only the specified fields of an existing patient by id.
-
-**Example:**
-```bash 
-curl -X PATCH http://localhost:8080/patients/1 \
-  -H "Content-Type: application/json" \
-  -d '{"age": "[80-90)"}'
-```
-**Response:**
-```
-Patient 1 successfully updated!
-```
----
-
-### Delete Patient
-```DELETE /patients/{id}```
-
-Deletes a patient by id.
-**Example:**
-```bash 
-curl -X DELETE http://localhost:8080/patients/1
-```
-**Response:**
-```
-Patient 1 successfully deleted!
-```
