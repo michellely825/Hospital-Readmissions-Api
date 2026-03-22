@@ -4,6 +4,12 @@
 A Spring Boot REST API with ten years of hospital readmission data
 for diabetic patients across 130 US hospitals (1999-2008).
 
+## Live API
+🌐 Base URL: `https://hospital-readmissions-api-production.up.railway.app`
+
+Try it:
+https://hospital-readmissions-api-production.up.railway.app/patients/stats
+
 ## Features
 * 25,000 rows of real healthcare data
 * Full CRUD endpoints (Create, Read, Update, Delete)

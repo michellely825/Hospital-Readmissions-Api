@@ -13,12 +13,10 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/patients/readmitted",
-          "protocol": "http",
+          "raw": "{{base_url}}/patients/readmitted",
           "host": [
-            "localhost"
+            "{{base_url}}"
           ],
-          "port": "8080",
           "path": [
             "patients",
             "readmitted"
@@ -36,12 +34,10 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/patients",
-          "protocol": "http",
+          "raw": "{{base_url}}/patients",
           "host": [
-            "localhost"
+            "{{base_url}}"
           ],
-          "port": "8080",
           "path": [
             "patients"
           ]
@@ -58,12 +54,10 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/patients/25",
-          "protocol": "http",
+          "raw": "{{base_url}}/patients/25",
           "host": [
-            "localhost"
+            "{{base_url}}"
           ],
-          "port": "8080",
           "path": [
             "patients",
             "25"
@@ -78,12 +72,10 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/patients/diagnosis/Diabetes",
-          "protocol": "http",
+          "raw": "{{base_url}}/patients/diagnosis/Diabetes",
           "host": [
-            "localhost"
+            "{{base_url}}"
           ],
-          "port": "8080",
           "path": [
             "patients",
             "diagnosis",
@@ -102,12 +94,10 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/patients/stats",
-          "protocol": "http",
+          "raw": "{{base_url}}/patients/stats",
           "host": [
-            "localhost"
+            "{{base_url}}"
           ],
-          "port": "8080",
           "path": [
             "patients",
             "stats"
@@ -125,12 +115,10 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/patients/stats/by-diagnosis",
-          "protocol": "http",
+          "raw": "{{base_url}}/patients/stats/by-diagnosis",
           "host": [
-            "localhost"
+            "{{base_url}}"
           ],
-          "port": "8080",
           "path": [
             "patients",
             "stats",
@@ -149,12 +137,10 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/patients/stats/by-age",
-          "protocol": "http",
+          "raw": "{{base_url}}/patients/stats/by-age",
           "host": [
-            "localhost"
+            "{{base_url}}"
           ],
-          "port": "8080",
           "path": [
             "patients",
             "stats",
@@ -182,12 +168,10 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8080/patients",
-          "protocol": "http",
+          "raw": "{{base_url}}/patients",
           "host": [
-            "localhost"
+            "{{base_url}}"
           ],
-          "port": "8080",
           "path": [
             "patients"
           ]
@@ -213,12 +197,10 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8080/patients/1",
-          "protocol": "http",
+          "raw": "{{base_url}}/patients/1",
           "host": [
-            "localhost"
+            "{{base_url}}"
           ],
-          "port": "8080",
           "path": [
             "patients",
             "1"
@@ -245,12 +227,10 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8080/patients/1",
-          "protocol": "http",
+          "raw": "{{base_url}}/patients/1",
           "host": [
-            "localhost"
+            "{{base_url}}"
           ],
-          "port": "8080",
           "path": [
             "patients",
             "1"
@@ -268,12 +248,10 @@
         "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/patients/25002",
-          "protocol": "http",
+          "raw": "{{base_url}}/patients/25002",
           "host": [
-            "localhost"
+            "{{base_url}}"
           ],
-          "port": "8080",
           "path": [
             "patients",
             "25002"
