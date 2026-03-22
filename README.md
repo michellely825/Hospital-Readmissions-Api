@@ -7,8 +7,11 @@ for diabetic patients across 130 US hospitals (1999-2008).
 ## Live API
 🌐 Base URL: `https://hospital-readmissions-api-production.up.railway.app`
 
-Try it:
-https://hospital-readmissions-api-production.up.railway.app/patients/stats
+Try it (open in new tab):
+- [GET /patients](https://hospital-readmissions-api-production.up.railway.app/patients)
+- [GET /patients/stats](https://hospital-readmissions-api-production.up.railway.app/patients/stats)
+- [GET /patients/stats/by-diagnosis](https://hospital-readmissions-api-production.up.railway.app/patients/stats/by-diagnosis)
+- [GET /patients/stats/by-age](https://hospital-readmissions-api-production.up.railway.app/patients/stats/by-age)
 
 ## Features
 * 25,000 rows of real healthcare data
