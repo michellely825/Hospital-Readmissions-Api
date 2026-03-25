@@ -400,7 +400,17 @@ Import it into Postman and set the `base_url` environment variable to either:
 4. **Load the dataset**
 
 ```bash
-   psql -d hospital -c "\COPY patients(age, time_in_hospital, n_procedures, n_lab_procedures, n_medications, n_outpatient, n_inpatient, n_emergency, medical_specialty, diag_1, diag_2, diag_3, glucose_test, a1c_test, change, diabetes_med, readmitted) FROM '/your/path/to/hospital_readmissions.csv' DELIMITER ',' CSV HEADER;"
+   psql -d hospital -c "\COPY patients(age,
+    time_in_hospital, n_procedures, n_lab_procedures, n_medications,
+    n_outpatient, n_inpatient,
+    n_emergency, medical_specialty,
+    diag_1, diag_2, diag_3,
+    glucose_test, a1c_test,
+    change, diabetes_med,
+    readmitted)
+    FROM
+    '/your/path/to/hospital_readmissions.csv'
+    DELIMITER ',' CSV HEADER;"
 ```
 
 5. **Configure database connection**
