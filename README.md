@@ -17,8 +17,9 @@ Try it (open in new tab):
 - [GET /patients/stats](https://hospital-readmissions-api-production.up.railway.app/patients/stats)
 - [GET /patients/stats/by-diagnosis](https://hospital-readmissions-api-production.up.railway.app/patients/stats/by-diagnosis)
 - [GET /patients/stats/by-age](https://hospital-readmissions-api-production.up.railway.app/patients/stats/by-age)
-- [GET /patients/25](https://hospital-readmissions-api-production.up.railway.app/patients/25)
-- [GET /patients/readmitted](https://hospital-readmissions-api-production.up.railway.app/patients/readmitted) -[GET /patients/diagnosis/Diabetes](https://hospital-readmissions-api-production.up.railway.app/patients/diagnosis/Diabetes)
+- [GET /patients/25](https://hospital-readmissions-api-produßction.up.railway.app/patients/25)
+- [GET /patients/readmitted](https://hospital-readmissions-api-production.up.railway.app/patients/readmitted)
+- [GET /patients/diagnosis/Diabetes](https://hospital-readmissions-api-production.up.railway.app/patients/diagnosis/Diabetes)
 
 ## Features
 
