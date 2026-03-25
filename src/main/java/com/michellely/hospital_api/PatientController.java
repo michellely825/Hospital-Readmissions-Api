@@ -9,7 +9,6 @@ import java.util.*;
 
 @RestController
 
-// all endpoints start with /patients
 @RequestMapping("/patients")
 public class PatientController {
 
