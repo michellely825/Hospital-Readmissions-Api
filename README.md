@@ -39,6 +39,16 @@ Try it (open in new tab):
 - **Deployment:** Railway
 - **API Testing:** Postman
 
+## Summary of Key Learnings
+
+- RESTful API design and implementation
+- Backend Development: Built a full backend service that interacts with a relational database
+- Database Integration: Connected and queried a PostgreSQL database using raw SQL for data retrieval and manipulation
+- Pagination & Performance: Implemented pagination to efficiently handle and serve large datasets
+- Deployment & Infrastructure: Deployed a production-ready API on Railway with managed database configuration
+- API Testing: Validated endpoints using Postman and curl to ensure correctness and reliability
+- Debugging & Troubleshooting: Resolved issues such as CORS configuration and API connectivity
+
 ## Endpoints
 
 ### GET ALL Patients
