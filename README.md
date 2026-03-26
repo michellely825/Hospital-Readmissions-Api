@@ -27,7 +27,7 @@ This API powers an interactive React dashboard deployed on Vercel.
 
 🌐 **Live Dashboard:** [hospital-readmission-dashboard.vercel.app](https://hospital-readmission-dashboard.vercel.app)
 
-**Repo:** [github.com/michellely825/Hospital-Readmission-Dashboard](https://github.com/michellely825/Hospital-Readmission-Dashboard)
+**GitHub Repo:** [github.com/michellely825/Hospital-Readmission-Dashboard](https://github.com/michellely825/Hospital-Readmission-Dashboard)
 
 ![Dashboard Preview](src/assets/demo.png)
 
