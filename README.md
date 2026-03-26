@@ -389,7 +389,7 @@ Import it into Postman and set the `base_url` environment variable to either:
 
 3. **Create the database and table**
 
-Enter psql:
+Start by connecting to default postgres database:
 
 ```bash
    psql postgres
