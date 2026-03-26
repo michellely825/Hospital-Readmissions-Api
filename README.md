@@ -21,6 +21,16 @@ Try it (open in new tab):
 - [GET /patients/readmitted](https://hospital-readmissions-api-production.up.railway.app/patients/readmitted)
 - [GET /patients/diagnosis/Diabetes](https://hospital-readmissions-api-production.up.railway.app/patients/diagnosis/Diabetes)
 
+## Frontend Dashboard
+
+This API powers an interactive React dashboard deployed on Vercel.
+
+🌐 **Live Dashboard:** [hospital-readmission-dashboard.vercel.app](https://hospital-readmission-dashboard.vercel.app)
+
+**Repo:** [github.com/michellely825/hospital-dashboard](https://github.com/michellely825/hospital-dashboard)
+
+![Dashboard Preview](src/assets/demo.png)
+
 ## Features
 
 - 25,000 rows of real healthcare data
@@ -366,8 +376,8 @@ Import it into Postman and set the `base_url` environment variable to either:
 1. **Clone the repository**
 
 ```bash
-   git clone https://github.com/michellely/hospital-api.git
-   cd hospital-api
+   git clone https://github.com/michellely825/Hospital-Readmissions-Api.git
+   cd Hospital-Readmissions-Api
 ```
 
 2. **Set up PostgreSQL**
@@ -379,13 +389,23 @@ Import it into Postman and set the `base_url` environment variable to either:
 
 3. **Create the database and table**
 
+Enter psql:
+
 ```bash
    psql postgres
 ```
 
+Run each command one at a time after the `postgres=#` prompt appears:
+
 ```sql
    CREATE DATABASE hospital;
+```
+
+```sql
    \c hospital
+```
+
+```sql
    CREATE TABLE patients (
        id SERIAL PRIMARY KEY,
        age VARCHAR(20),
@@ -408,23 +428,19 @@ Import it into Postman and set the `base_url` environment variable to either:
    );
 ```
 
-4. **Load the dataset**
+After creating the table, exit psql:
 
-```bash
-   psql -d hospital -c "\COPY patients(age,
-    time_in_hospital, n_procedures, n_lab_procedures, n_medications,
-    n_outpatient, n_inpatient,
-    n_emergency, medical_specialty,
-    diag_1, diag_2, diag_3,
-    glucose_test, a1c_test,
-    change, diabetes_med,
-    readmitted)
-    FROM
-    '/your/path/to/hospital_readmissions.csv'
-    DELIMITER ',' CSV HEADER;"
+```sql
+\q
 ```
 
-5. **Configure database connection**
+5. **Load the dataset**
+
+```bash
+psql -d hospital -c "\COPY patients(age, time_in_hospital, n_procedures, n_lab_procedures, n_medications, n_outpatient, n_inpatient, n_emergency, medical_specialty, diag_1, diag_2, diag_3, glucose_test, a1c_test, change, diabetes_med, readmitted) FROM '/your/path/to/hospital_readmissions.csv' DELIMITER ',' CSV HEADER;"
+```
+
+6. **Configure database connection**
 
    Open `src/main/resources/application.properties` and update:
 
@@ -434,13 +450,15 @@ Import it into Postman and set the `base_url` environment variable to either:
    spring.datasource.password=
 ```
 
-6. **Run the server**
+7. **Run the server**
 
 ```bash
    ./mvnw spring-boot:run
 ```
 
-7. **Test it**
+8. **Test it**
+
+Open a new terminal window (the current one is occupied by the running server) and test the endpoints:
 
 ```bash
    curl http://localhost:8080/patients
