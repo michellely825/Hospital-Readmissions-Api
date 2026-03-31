@@ -6,16 +6,37 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 
 @RequestMapping("/patients")
 public class PatientController {
 
+    private static final long CACHE_TTL_MS = 5 * 60 * 1000L; // 5 minutes
+
     private final JdbcTemplate jdbcTemplate;
+
+    // Simple TTL cache entries: key -> {data, expiresAt}
+    private final ConcurrentHashMap<String, Object[]> statsCache = new ConcurrentHashMap<>();
 
     public PatientController(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    /**
+     * Returns a cached result for the given key if it exists and has not expired.
+     * Otherwise executes the supplier, stores the result, and returns it.
+     */
+    @SuppressWarnings("unchecked")
+    private List<Map<String, Object>> cachedQuery(String cacheKey, java.util.function.Supplier<List<Map<String, Object>>> supplier) {
+        Object[] entry = statsCache.get(cacheKey);
+        if (entry != null && System.currentTimeMillis() < (long) entry[1]) {
+            return (List<Map<String, Object>>) entry[0];
+        }
+        List<Map<String, Object>> result = supplier.get();
+        statsCache.put(cacheKey, new Object[]{result, System.currentTimeMillis() + CACHE_TTL_MS});
+        return result;
     }
 
     // GET all patients (paginated)
@@ -65,16 +86,34 @@ public class PatientController {
         return stats;
     }
 
-    // Readmission rates by primary diagnosis
+    // Readmission rates by primary diagnosis (paginated, cached per page)
     @GetMapping("/stats/by-diagnosis")
-    public List<Map<String, Object>> getStatsByDiag() {
-        return jdbcTemplate.queryForList("SELECT diag_1, COUNT(*) AS total, SUM(CASE WHEN readmitted = 'yes' THEN 1 ELSE 0 END) AS total_readmitted, ROUND(SUM(CASE WHEN readmitted = 'yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS readmission_rates  FROM patients GROUP BY diag_1 ORDER BY diag_1 ASC");
+    public List<Map<String, Object>> getStatsByDiag(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        String cacheKey = "by-diagnosis:page=" + page + ":size=" + size;
+        return cachedQuery(cacheKey, () ->
+                jdbcTemplate.queryForList(
+                        "SELECT diag_1, COUNT(*) AS total, " +
+                        "SUM(CASE WHEN readmitted = 'yes' THEN 1 ELSE 0 END) AS total_readmitted, " +
+                        "ROUND(SUM(CASE WHEN readmitted = 'yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS readmission_rates " +
+                        "FROM patients GROUP BY diag_1 ORDER BY diag_1 ASC LIMIT ? OFFSET ?",
+                        size, page * size));
     }
 
-    // Readmission rates by age
-    @GetMapping("stats/by-age")
-    public List<Map<String, Object>> getStatsByAge() {
-        return jdbcTemplate.queryForList("SELECT age, COUNT(*) AS total, SUM(CASE WHEN readmitted = 'yes' THEN 1 ELSE 0 END) AS total_readmitted, ROUND(SUM(CASE WHEN readmitted = 'yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS readmission_rates  FROM patients GROUP BY age ORDER BY age ASC");
+    // Readmission rates by age (paginated, cached per page)
+    @GetMapping("/stats/by-age")
+    public List<Map<String, Object>> getStatsByAge(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        String cacheKey = "by-age:page=" + page + ":size=" + size;
+        return cachedQuery(cacheKey, () ->
+                jdbcTemplate.queryForList(
+                        "SELECT age, COUNT(*) AS total, " +
+                        "SUM(CASE WHEN readmitted = 'yes' THEN 1 ELSE 0 END) AS total_readmitted, " +
+                        "ROUND(SUM(CASE WHEN readmitted = 'yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS readmission_rates " +
+                        "FROM patients GROUP BY age ORDER BY age ASC LIMIT ? OFFSET ?",
+                        size, page * size));
     }
 
     // Create a new patient
